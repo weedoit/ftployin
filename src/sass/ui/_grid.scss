@@ -1,0 +1,35 @@
+$grid-columns: 12;
+
+.cols {
+    position: relative;
+    display: block;
+    width: 100%;
+
+    &.full-height {
+        height: 100%;
+        
+        [class*="col-"] {
+            height: 100%;
+        }
+    }
+
+    > [class*="col-"] {
+        display: block;
+        float: left;
+        padding: 16px;
+        position: relative;
+        min-height: 1px;
+    }
+
+    @for $i from 1 through $grid-columns {
+        > .col-#{$i} {
+            width: 100% / $grid-columns * $i;
+        }
+        > .offset-#{$i} {
+            margin-left: 100% / $grid-columns * $i;
+        }
+    }
+}
+
+.no-padding { padding: 0!important; }
+.no-padding-top { padding-top: 0!important; }

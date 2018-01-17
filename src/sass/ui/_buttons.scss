@@ -1,0 +1,46 @@
+@mixin btn-style ($name, $bg, $color: #282a36) {    
+    &.#{$name} {
+        background-color: $bg;
+        
+        &:hover {
+            background-color: darken($bg, 10%);
+        }
+    }
+}
+
+.ui {
+    &.btn {
+        cursor: pointer;
+        display: block;
+        height: 30px;
+        line-height: 30px;
+        width: 100%;
+        border: 0;
+        padding: 0 0px;
+        text-align: center;
+        text-transform: uppercase;
+        transition: all .3s ease;
+        border-radius: 4px;
+        color: rgba(0,0,0,.7);
+
+        @include btn-style('purple', $purple);
+        @include btn-style('gray', $gray);
+        @include btn-style('pink', $pink);
+        @include btn-style('yellow', $yellow);
+        @include btn-style('cyan', $cyan);
+        @include btn-style('green', $green);
+        @include btn-style('purple', $purple);
+
+        &.small {
+            height: 20px;
+            line-height: 20px;
+        }
+
+        &.disabled,
+        &.disabled:hover {
+            background-color: $gray;
+            user-select: none;
+            touch-action: none;
+        }
+    }
+}

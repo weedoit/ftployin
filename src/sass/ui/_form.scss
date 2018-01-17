@@ -1,0 +1,67 @@
+.ui {
+    &.form {
+        .input-group {
+            display: block;
+            width: 100%;
+
+            label, input, textarea, select {
+                display: block;
+                height: 30px;
+                line-height: 30px;
+                float: left;
+                font-size: 12px;
+
+                @for $i from 1 through $grid-columns {
+                    &.col-#{$i} {
+                        width: 100% / $grid-columns * $i;
+                    }
+                }
+            }
+
+            label {
+                text-transform: uppercase;
+                color: $purple;
+                padding: 0 8px 0 0;
+                font-weight: bold;
+            }
+
+            input, select, textarea {
+                -webkit-appearance: none;
+                background: transparent;
+                border: 0;
+                color: $cyan;
+            }
+
+            textarea {
+                height: auto;
+                line-height: 16px;
+            }
+
+            &:after {
+                content: '';
+                display: block;
+                clear: both;
+                border-bottom: 1px solid $purple;
+            }
+        }
+    }
+
+
+    input[type='checkbox'] {
+        -webkit-appearance: none;
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        vertical-align: middle;
+        border: 1px solid $purple;
+        cursor: pointer;
+
+        &:checked {
+            border-color: $green;
+            background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgaGVpZ2h0PSIzMiIgaWQ9ImNoZWNrIiB2aWV3Qm94PSIwIDAgMzIgMzIiIHdpZHRoPSIzMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMSAxNCBMNSAxMCBMMTMgMTggTDI3IDQgTDMxIDggTDEzIDI2IHoiIHN0eWxlPSJmaWxsOiAjNTlmODgxIi8+PC9zdmc+);
+            background-size: 80%;
+            background-position: center center;
+            background-repeat: no-repeat;
+        }
+    }
+}

@@ -1,0 +1,22 @@
+.ui {
+    &.modal {
+        padding: 8px 0;
+
+        .body {
+            .cols {
+                padding: 0 8px;
+
+                > [class*='col-'] {
+                    padding: 0 8px;
+                }
+            }
+        }
+
+
+        .footer {
+            [class*='col-'] {
+                padding: 0;
+            }
+        }
+    }
+}

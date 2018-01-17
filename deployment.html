@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>ftployin</title>
+    <link rel="stylesheet" href="assets/css/app.min.css">
+</head>
+<body>
+    <div id="modal" class="fade" v-bind:class="{show: vueLoaded}">
+        <div class="ui window-title drag-region">{{ title }}</div>
+
+        <div class="ui window-body modal deployment" v-if="!done">
+            <div class="file-list">
+                <div class="feedback" v-if="!loaded">
+                    Fetching diffs...
+                </div>
+                <div class="feedback" v-if="loaded && files.length == 0">
+                    Oops! There is nothing to be deployed.
+                </div>
+                <ul>
+                    <li v-for="file in files">                        
+                        <input type="checkbox" v-model="file.selected" v-if="!deploying"/>
+                    <span class="ui text sub" v-bind:class="{purple: !file.selected, green: file.selected }"><strong>{{ file.mode }}</strong>  {{ file.path }}</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="footer">
+                <div class="cols">
+                    <div class="col-1">
+                        <div class="ui loader" v-if="deploying || !connected || !loaded "></div>
+                    </div>
+                    <div class="col-9">
+                        <div class="ui text sub green progress" v-if="deploying">progress {{ 100 / progress.total * progress.cur }}%</div>
+                        <div class="ui text sub green progress" v-if="updatingRemoteFile">updating remote config file...</div>
+                    </div>
+                    <div class="col-2">
+                        <button 
+                            class="ui btn green"
+                            v-on:click="processDeploy()"
+                            v-bind:class="{disabled: deploying}"
+                            v-if="loaded && files.length"
+                        >{{ deploying ? 'deploying' : 'deploy'}}</button>
+
+                        <button 
+                            class="ui btn pink"
+                            v-on:click="close()"
+                            v-if="loaded && files.length == 0"
+                        >close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui window-body modal deployment" v-if="done">
+            <div class="done">
+                <div class="cols">
+                    <div class="col-2">
+                        <i class="ui icon check"></i>
+                    </div>
+                    <div class="col-10">
+                        <span class="ui text green">deployed!</span><br><br>
+                        <span class="ui text gray sub">from: {{ diff.from }}</span><br>
+                        <span class="ui text gray sub">to: {{ diff.to }}</span><br>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="cols">
+                    <div class="col-1"></div>
+                    <div class="col-9"></div>
+                    <div class="col-2">
+                        <button class="ui btn pink" v-on:click="close()">close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/vue.min.js"></script>
+    <script src="src/js/deployment.js"></script>
+</body>
+</html>

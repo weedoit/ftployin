@@ -1,0 +1,108 @@
+@import 'utils/reset';
+@import 'utils/fonts';
+@import 'utils/colors';
+
+@import 'ui/window';
+@import 'ui/scroll';
+@import 'ui/grid';
+@import 'ui/text';
+@import 'ui/icons';
+@import 'ui/nav';
+@import 'ui/background';
+@import 'ui/loader';
+@import 'ui/buttons';
+@import 'ui/form';
+@import 'ui/modal';
+@import 'ui/headings';
+
+.fade {
+    visibility: hidden;
+    opacity: 0;
+    transition: all .15s ease;
+    
+    &.show {
+        visibility: visible;
+        opacity: 1;
+    }
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    padding: 16px;
+    left: 0;
+    width: 100%;
+}
+
+.envs-title {
+    min-height: 20px;
+}
+
+.env-list {
+    padding: 0;
+    margin-top: 8px;
+
+    .env-list-item {
+        .cols [class*='col-'] {
+            padding: 0 4px;
+        }
+
+        &:hover {
+            background-color: rgba(255,255,255,.05);
+        }
+
+        padding: 8px 4px;
+        padding-left: 8px;
+        border-top: 1px solid rgba(255,255,255,.05);
+        line-height: 20px;
+        height: 38px;
+        font-size: 14px;
+
+        &:last-child {
+            border-bottom: 1px solid rgba(255,255,255,.05);
+        }
+    }
+}
+
+#modal {
+    height: 100%;
+}
+
+.deployment {
+    padding: 0!important;
+
+    .file-list {
+        height: calc(100% - 62px);
+        overflow-y: scroll;
+
+        ul > li {
+            border-bottom: 1px solid rgba(255,255,255,.05);
+            padding: 4px 16px;
+            line-height: 20px;
+        }
+    }
+
+    .footer {
+        background-color: rgba(0, 0, 0, .1);
+    }
+
+    .feedback {
+        padding: 20% 50px;
+        text-align: center;
+        color: $gray;
+        font-size: 12px;
+    }
+
+    .progress {
+        line-height: 30px;
+    }
+
+    .done {
+        padding: 80px;
+
+        .icon {
+            height: 64px;
+            width: 64px;
+        }
+    }
+}

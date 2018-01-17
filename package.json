@@ -1,0 +1,38 @@
+{
+  "name": "electron-quick-start",
+  "version": "1.0.0",
+  "description": "A minimal Electron application",
+  "main": "main.js",
+  "scripts": {
+    "build": "electron-packager . ftployin --platform=darwin --icon assets/icons/icon.png --overwrite",
+    "start": "electron ."
+  },
+  "repository": "https://github.com/electron/electron-quick-start",
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial",
+    "demo"
+  ],
+  "author": "GitHub",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-include": "^2.3.1",
+    "gulp-plumber": "^1.2.0",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.6.3",
+    "gulp-watch": "^5.0.0"
+  },
+  "dependencies": {
+    "electron": "~1.7.8",
+    "electron-connect": "^0.6.3",
+    "electron-modal": "git+https://github.com/brunoziie/electron-modal.git",
+    "ftp": "^0.3.10",
+    "ggit": "^2.4.2",
+    "md5": "^2.2.1",
+    "tmp": "0.0.33"
+  }
+}

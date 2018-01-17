@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>ftployin</title>
+    <link rel="stylesheet" href="assets/css/app.min.css">
+</head>
+
+<body>
+    <div id="modal">
+        <div class="ui window-title drag-region">{{ title }}</div>
+
+        <div class="ui window-body modal">
+            <div class="ui form">
+                <div class="body">
+                    <div class="cols">
+                        <div class="col-12">
+                            <div class="input-group">
+                                <label for="name">name:</label>
+                                <input type="text" class="col-10" id="name" v-model="form.name">
+                            </div>
+                        </div>
+                    </div>
+                        
+                    <div class="cols">
+                        <div class="col-8">
+                            <div class="input-group">
+                                <label for="host">host:</label>
+                                <input type="text" class="col-9" id="name" v-model="form.host">
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="input-group">
+                                <label for="port">port:</label>
+                                <input type="text" class="col-6" id="name" v-model="form.port">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cols">
+                        <div class="col-6">
+                            <div class="input-group">
+                                <label for="username">username:</label>
+                                <input type="text" class="col-8" id="name" v-model="form.user">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="input-group">
+                                <label for="password">password:</label>
+                                <input type="password" class="col-8" id="name" v-model="form.password">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cols">
+                        <div class="col-12">
+                            <div class="input-group">
+                                <label for="remoteDir">remote dir:</label>
+                                <input type="text" class="col-9" id="remoteDir" v-model="form.remoteDir">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cols">
+                        <div class="col-12">
+                            <div class="input-group">
+                                <label for="exclude">exclude:</label>
+                                <textarea class="col-12"  id="exclude" v-model="excludeLines" rows="10"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer">                    
+                    <div class="cols">
+                        <div class="col-3">
+                            <button class="ui btn pink" v-on:click="close()">cancel</button>
+                        </div>
+                        <div class="col-3 offset-6">
+                            <button class="ui btn green" v-on:click="save()">save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/vue.min.js"></script>
+
+    <script>
+        const modal = require('electron-modal');
+        const methods = {};
+        const computed = {};
+
+        computed.excludeLines = {
+            get: function () {
+                return (this.form.exclude instanceof Array)
+                    ? this.form.exclude.join("\n")
+                    : this.form.exclude;
+            },
+            set: function (value) {
+                if (value) {
+                    this.form.exclude = value.split("\n")
+                        .map(l => l.trim());
+                }
+            }
+        };
+
+        methods.save = function () {
+            if (this.form.exclude instanceof Array) {
+                this.form.exclude = this.form.exclude.filter(l => l);
+            }
+
+            modal.emit(this.action, this.form);
+            modal.close();
+        };
+        
+        methods.close = function () {
+            modal.close();
+        };
+
+        modal.getData().then((data) => {
+            new Vue({ el: '#modal', data, methods, computed });
+        });
+    </script>
+</body>
+
+</html>

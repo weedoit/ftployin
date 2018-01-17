@@ -1,0 +1,24 @@
+.ui {
+    &.nav {
+        padding: 8px 0;
+        margin: 0;
+        list-style: none;
+
+        .nav-item {
+            border-left: 4px solid $pink;
+            color: $pink;
+            cursor: pointer;
+            font-size: 12px;
+            line-height: 18px;
+            padding-left: 8px;
+            margin-bottom: 2px;
+            transition: all 300ms ease;
+
+            &.selected,
+            &:hover {
+                border-left-color: $green;
+                color: $green;
+            }
+        }
+    }
+}

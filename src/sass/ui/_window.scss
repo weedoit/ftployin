@@ -1,0 +1,17 @@
+.ui {
+    &.window-title {
+        height: 40px;
+        width: 100%;
+        background-color: rgba(0, 0, 0, .1);
+        text-align: center;
+        line-height: 40px;
+        font-size: 12px;
+        -webkit-app-region: drag;
+    }
+
+    &.window-body {
+        height: calc(100% - 40px);
+        width: 100%;
+        overflow: hidden;
+    }
+}

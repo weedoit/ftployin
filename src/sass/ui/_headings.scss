@@ -1,0 +1,21 @@
+.ui {
+    h1, h2, h3, h4, h5, h6 {
+        padding: 4px 0;
+        border-bottom: 1px solid rgba(255,255,255,.05);
+        color: $gray;
+        line-height: 1;
+        margin-bottom: 4px;
+
+        &.no-margin {
+            margin: 0;
+        }
+    }
+
+    h1 {
+        font-size: 26px;
+        line-height: 40px;
+    }
+    h5 {
+        font-size: 14px;
+    }
+}

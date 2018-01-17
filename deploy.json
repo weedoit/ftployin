@@ -1,0 +1,12 @@
+{
+  "envs": {
+    "dev": {
+      "host": "HOSTNAME_OR_IP",
+      "port": 21,
+      "user": "USERNAME",
+      "password": "PASSWORD",
+      "remoteDir": "",
+      "exclude": null
+    }
+  }
+}

@@ -1,0 +1,18 @@
+.ui {
+    &.text {
+        // Sizes and weights
+        &.sub { font-size: 12px;}
+        &.normal { font-size: 14px;}
+        &.big { font-size: 16px;}
+        &.bold { font-weight: bold;}
+        &.upper { text-transform: uppercase;}
+
+        // Colors
+        &.pink { color: $pink; }
+        &.cyan { color: $cyan; }
+        &.yellow { color: $yellow; }
+        &.gray { color: $gray; }
+        &.purple { color: $purple;}
+        &.green { color: $green;}
+    }
+}
