@@ -1,3 +1,23 @@
+@mixin checkbox () {
+    input[type='checkbox'] {
+        -webkit-appearance: none;
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        vertical-align: middle;
+        border: 1px solid $purple;
+        cursor: pointer;
+
+        &:checked {
+            border-color: #fff;
+            background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgaGVpZ2h0PSIzMiIgaWQ9ImNoZWNrIiB2aWV3Qm94PSIwIDAgMzIgMzIiIHdpZHRoPSIzMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMSAxNCBMNSAxMCBMMTMgMTggTDI3IDQgTDMxIDggTDEzIDI2IHoiIHN0eWxlPSJmaWxsOiAjZmZmIi8+PC9zdmc+);
+            background-size: 80%;
+            background-position: center center;
+            background-repeat: no-repeat;
+        }
+    }
+}
+
 .ui {
     &.form {
         .input-group {
@@ -20,7 +40,7 @@
 
             label {
                 text-transform: uppercase;
-                color: $purple;
+                color: $gray;
                 padding: 0 8px 0 0;
                 font-weight: bold;
             }
@@ -29,39 +49,31 @@
                 -webkit-appearance: none;
                 background: transparent;
                 border: 0;
-                color: $cyan;
+                color: #fff;
+            }
+
+            @include checkbox();
+            input[type="checkbox"] {
+                margin: 8px 8px 8px 0;
+                border-color: $gray;
             }
 
             textarea {
                 height: auto;
-                line-height: 16px;
+                line-height: 18px;
+                padding: 0 0 8px 0;
+                resize: none;
+                margin-top: -4px;
             }
 
             &:after {
                 content: '';
                 display: block;
                 clear: both;
-                border-bottom: 1px solid $purple;
+                border-bottom: 1px solid $gray;
             }
         }
     }
 
-
-    input[type='checkbox'] {
-        -webkit-appearance: none;
-        display: inline-block;
-        width: 14px;
-        height: 14px;
-        vertical-align: middle;
-        border: 1px solid $purple;
-        cursor: pointer;
-
-        &:checked {
-            border-color: $green;
-            background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgaGVpZ2h0PSIzMiIgaWQ9ImNoZWNrIiB2aWV3Qm94PSIwIDAgMzIgMzIiIHdpZHRoPSIzMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMSAxNCBMNSAxMCBMMTMgMTggTDI3IDQgTDMxIDggTDEzIDI2IHoiIHN0eWxlPSJmaWxsOiAjNTlmODgxIi8+PC9zdmc+);
-            background-size: 80%;
-            background-position: center center;
-            background-repeat: no-repeat;
-        }
-    }
+    @include checkbox();
 }

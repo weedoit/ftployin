@@ -34,7 +34,7 @@
               <h1 class="ui">
                 {{ currentProject.name }}
 
-                <button class="ui btn gray float right inverse" title="remove project">
+                <button class="ui btn gray float right inverse" title="remove project" @click="removeProject(currentProject)">
                   <i class="icon icon-trash"></i>
                 </button>
               </h1>
@@ -98,7 +98,8 @@
     </div>
 
     <script src="assets/js/vue.min.js"></script>
-    <script src="src/js/app.js"></script>
     <script src="src/js/ui/tabs.js"></script>
+    <script src="src/js/ui/code-editor.js"></script>
+    <script src="src/js/app.js"></script>
   </body>
 </html>

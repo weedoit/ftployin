@@ -31,16 +31,22 @@
                                 </div>
                                 
                                 <div class="cols">
-                                    <div class="col-8">
+                                    <div class="col-7">
                                         <div class="input-group">
                                             <label for="host">host:</label>
                                             <input type="text" class="col-9" id="name" v-model="form.host">
                                         </div>
                                     </div>
-                                    <div class="col-4">
+                                    <div class="col-2">
                                         <div class="input-group">
                                             <label for="port">port:</label>
-                                            <input type="text" class="col-6" id="name" v-model="form.port">
+                                            <input type="text" class="col-2" id="name" v-model="form.port">
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="input-group">
+                                            <input type="checkbox" id="secure" v-model="form.secure">
+                                            <label for="secure">secure</label>
                                         </div>
                                     </div>
                                 </div>
@@ -83,7 +89,6 @@
                                     <div class="ui note">
                                         <i class="icon icon-info-circle"></i>
                                         this files may not exists on project but you need to upload them.
-                                        <br /> this is useful for file like config files.
                                     </div>
 
                                     <button class="ui btn small yellow float padding-h-16" @click="addFile()">
@@ -92,15 +97,25 @@
                                     </button>
 
                                     <div class="virtual-files-list">
-                                        <div class="file" v-for="file in files">
-                                            <button class="ui btn small inverse gray float right close" @click="removeFile(file)">
-                                                <i class="icon icon-trash"></i>
-                                            </button>
-                                            <span class="ui text gray sub pre-icon-file">
-                                                <i class="icon icon-file-code-o"></i>
-                                            </span>
-                                            <input type="text" v-model="file.path" placeholder="/path/to/your/file">
-                                            <textarea rows="5" v-model="file.content" placeholder="/* your code here */"></textarea>
+                                        <div class="file" v-for="file in form.files">
+                                            <div class="title">
+                                                <button class="ui btn small inverse gray float right close" @click="removeFile(file)">
+                                                    <i class="icon icon-trash"></i>
+                                                </button>
+                                                <span class="ui text gray sub pre-icon-file">
+                                                    <i class="icon icon-file-code-o"></i>
+                                                </span>
+
+                                                <input type="text" v-model="file.path" placeholder="/path/to/your/file">
+                                            </div>
+
+                                            <div class="wrapper-editor">
+                                                <code-editor
+                                                    :code="file.content"
+                                                    @update="code => file.content = code"
+                                                    placeholder="/* your code here */"
+                                                ></code-editor>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -125,6 +140,7 @@
 
     <script src="assets/js/vue.min.js"></script>
     <script src="src/js/ui/tabs.js"></script>
+    <script src="src/js/ui/code-editor.js"></script>
 
     <script>
         const modal = require('electron-modal');
@@ -150,6 +166,8 @@
                 this.form.exclude = this.form.exclude.filter(l => l);
             }
 
+            this.form.files = this.form.files.filter(f => (f.path || '').trim());            
+
             modal.emit(this.action, this.form);
             modal.close();
         };
@@ -159,15 +177,15 @@
         };
 
         methods.addFile = function () {
-            this.files.push({path: null, content: null});
+            this.form.files.push({path: null, content: null});
         }
 
         methods.removeFile = function (file) {
-            this.files = this.files.filter(f => f !== file);
+            this.form.files.splice(this.form.files.indexOf(file), 1);
         }
 
         modal.getData().then((data) => {
-            data.files = data.files || [{ path: null, content: null }];
+            data.form.files = data.form.files || [{ path: null, content: null }];
 
             new Vue({ el: '#modal', data, methods, computed });
         });

@@ -217,11 +217,21 @@ class Deploy {
 
                 switch (mode) {
                     case 'upload':
+                        if (item.virtual) {
+                            const file = tmp.fileSync();
+                            fs.writeFileSync(file.name, item.content);
+
+                            return this.connection.put(file.name, remotePath, (err) => {
+                                file.removeCallback();
+                                return (err) ? reject(err) : resolve();
+                            });
+                        }
+
                         return fs.lstat(localPath, (err, stats) => {
                             var content = localPath;
 
                             if (stats.isSymbolicLink()) {
-                                content = fs.readFileSync(localPath).toString();
+                                content = fs.readFileSync(localPath);
                             }
 
                             this.connection.put(content, remotePath, (err) => {
@@ -283,6 +293,25 @@ class Deploy {
 
                 resolve();
             });
+        });
+    }
+
+    uploadVirtualFiles (env) {
+        if (!env.files || !env.files.length) {
+            return Promise.resolve();
+        }
+
+        return new Promise((resolve, reject) => {
+            const queue = env.files.map((file) => ({
+                virtual: true,
+                mode: 'upload',
+                path: file.path,
+                content: file.content
+            }));
+
+            this.processQueue(queue)
+                .then(resolve)
+                .catch(reject);
         });
     }
 }

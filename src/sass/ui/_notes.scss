@@ -8,10 +8,12 @@
         border: 1px solid $gray;
         border-radius: 4px;
         margin-bottom: 8px;
-
+        background-color: rgba(255,255,255,.05);
+        
         .icon {
+            line-height: 14px;
             float: left;
-            margin: 8px 16px;
+            margin: 0px 16px;
         }
     }
 }

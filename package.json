@@ -4,7 +4,7 @@
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
-    "build": "electron-packager . ftployin --overwrite --platform=darwin --arch=x64 --icon=assets/icons/icon.icns --prune=true",
+    "build": "electron-packager . ftployin --overwrite --platform=darwin --arch=x64 --icon=assets/icons/icon.icns --prune=true --out=build",
     "start": "electron ."
   },
   "repository": "https://github.com/electron/electron-quick-start",

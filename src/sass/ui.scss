@@ -5,6 +5,7 @@
 
 @import 'ui/window';
 @import 'ui/tabs';
+@import 'ui/code-editor';
 @import 'ui/notes';
 @import 'ui/scroll';
 @import 'ui/grid';
@@ -54,7 +55,7 @@
         }
 
         padding: 8px 0;
-        border-bottom: 1px solid rgba(255,255,255,.05);
+        border-bottom: 1px solid $white-10p;
         line-height: 20px;
         height: 38px;
         font-size: 14px;
@@ -74,10 +75,10 @@
 
     .file-list {
         height: calc(100% - 62px);
-        overflow-y: scroll;
+        overflow-y: auto;
 
         ul > li {
-            border-bottom: 1px solid rgba(255,255,255,.05);
+            border-bottom: 1px solid $white-10p;
             padding: 4px 16px;
             line-height: 20px;
         }
@@ -110,44 +111,42 @@
 
 .virtual-files-list {
     .file {
-        font-size: 0;
-        padding: 8px;
-        border: 1px solid rgba(255,255,255,.05);
-        margin-top: 8px;
-        padding-left: 0;
-        
-        .pre-icon-file {
-            width: 30px;
-            text-align: center;
-            color: #fff;
-            display: inline-block;
-        }
-
-        .close {
-            width: 24px;
-        }
-
-        input, textarea {
-            -webkit-appearance: none;
-            background: transparent;
-            border: 0;
-            border-bottom: 1px solid $purple;
-            color: $cyan;
-            width: calc(100% - 60px);
-            line-height: 18px;
-            font-size: 12px;
-            padding: 4px 0;
-        }
-        
-        textarea {
-            height: 40px;
-            margin-left: 30px;
-            margin-bottom: 8px;
-            resize: none;
-
-            &:focus {
-                height: 200px;
+        .title {
+            font-size: 0;
+            padding: 8px;
+            border: 1px solid $white-10p;
+            border-bottom-width: 0;
+            margin-top: 8px;
+            padding-left: 0;
+            
+            .pre-icon-file {
+                width: 30px;
+                text-align: center;
+                color: lighten($white-10p, 20%);
+                display: inline-block;
+                border-right: 1px solid $white-10p;
             }
+    
+            .close {
+                width: 22px;
+                margin-top: -2px;
+            }
+
+            input {
+                -webkit-appearance: none;
+                background: transparent;
+                border: 0;
+                color: $cyan;
+                width: calc(100% - 60px);
+                line-height: 18px;
+                font-size: 12px;
+                padding: 0 0 0 8px;
+            }
+        }
+
+        .code-editor {
+            max-height: 180px;
+            overflow-y: auto;
         }
     }
 }

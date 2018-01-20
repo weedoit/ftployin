@@ -20,7 +20,9 @@
                 <ul>
                     <li v-for="file in files">                        
                         <input type="checkbox" v-model="file.selected" v-if="!deploying"/>
-                    <span class="ui text sub" v-bind:class="{purple: !file.selected, green: file.selected }"><strong>{{ file.mode }}</strong>  {{ file.path }}</span>
+                        <span class="ui text sub" :class="{purple: !file.selected, green: file.selected }">
+                            <strong>{{ file.mode }}</strong>  {{ file.path }}
+                        </span>
                     </li>
                 </ul>
             </div>
@@ -31,8 +33,7 @@
                         <div class="ui loader" v-if="deploying || !connected || !loaded "></div>
                     </div>
                     <div class="col-9">
-                        <div class="ui text sub green progress" v-if="deploying">progress {{ 100 / progress.total * progress.cur }}%</div>
-                        <div class="ui text sub green progress" v-if="updatingRemoteFile">updating remote config file...</div>
+                        <div class="ui text sub green progress">{{ feedback }}</div>
                     </div>
                     <div class="col-2">
                         <button 

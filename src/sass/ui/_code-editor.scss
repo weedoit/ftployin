@@ -1,0 +1,57 @@
+// <div class="ui code-editor">
+//     <div class="row-numbers">
+//         <span class="number" v-for="row in rows">{{ row }}</span>
+//     </div>
+//     <div class="editor">
+//         <textarea v-model="code" placeholder="{{ placeholder }}"></textarea>
+//     </class>
+// </div>
+
+.ui {
+    &.code-editor {
+        border: 1px solid $white-10p;
+
+        .editor-wrapper {   
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            min-height: 64px;
+        }
+
+        .row-numbers {
+            flex: 1;
+            background-color: $white-10p;
+            border-right-color: transparent;
+
+            .number {
+                display: block;
+                line-height: 18px;
+                font-size: 12px;
+                padding: 0 12px;
+                text-align: right;
+                color: lighten($gray, 10%);
+            }
+        }
+        
+        .editor {
+            flex: 99;
+            display: flex;
+            flex-direction: column;
+
+            textarea {
+                flex: 1;
+                width: 100%;
+                resize: none;
+                min-height: 50px;
+                background: none;
+                line-height: 18px;
+                font-size: 12px;
+                color: #fff;
+                padding: 0 8px;
+                font-weight: bold;
+                font-family: Menlo;
+                border: 0;
+            }
+        }
+    }
+}

@@ -81,6 +81,15 @@ ViewModel.methods.selectProject = function (project) {
     this.currentProject = IO.getCurrentProject();
 }
 
+ViewModel.methods.removeProject = function (project) {
+    if (this.currentProject.id === project.id) {
+        this.currentProject = null;
+    }
+
+    IO.deleteProject(project.id);
+    this.projects = IO.getProjects();
+}
+
 function openEnvFormModal(title, action, model) {
     const modal = require('electron-modal');
     const path = require('path');
@@ -91,8 +100,8 @@ function openEnvFormModal(title, action, model) {
 
     const params = {
         width: 640,
-        height: 450,
-        backgroundColor: '#272a35',
+        height: 480,
+        backgroundColor: '#2a2d37',
         titleBarStyle: 'hiddenInset'
     };
 
@@ -111,7 +120,7 @@ ViewModel.methods.deploy = function (projectPath, env) {
     const params = {
         width: 700,
         height: 500,
-        backgroundColor: '#272a35',
+        backgroundColor: '#2a2d37',
         titleBarStyle: 'hiddenInset'
     };
     
