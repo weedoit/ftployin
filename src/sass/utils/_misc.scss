@@ -1,0 +1,39 @@
+.float {
+    &.left {
+        float: left;
+    }
+    &.right {
+        float: right;
+    }
+}
+
+.padding-16 {
+    padding: 16px;
+}
+
+.padding-h-16 {
+    padding-left: 16px!important;
+    padding-right: 16px!important;
+}
+
+.padding-v-8 {
+    padding-top: 8px!important;
+    padding-bottom: 8px!important;
+}
+
+.border {
+    &.bottom {border-bottom: 1px solid rgba(255,255,255,.05);}
+    &.top {border-top: 1px solid rgba(255,255,255,.05);}
+}
+
+.lh-24 {
+    line-height: 24px;
+}
+
+.bg-white-opacity {
+    background-color: rgba(255,255,255,.05);
+}
+
+.full-height {
+    height: 100%;
+}

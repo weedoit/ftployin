@@ -12,61 +12,98 @@
         <div class="ui window-title drag-region">{{ title }}</div>
 
         <div class="ui window-body modal">
-            <div class="ui form">
-                <div class="body">
-                    <div class="cols">
-                        <div class="col-12">
-                            <div class="input-group">
-                                <label for="name">name:</label>
-                                <input type="text" class="col-10" id="name" v-model="form.name">
-                            </div>
+            <div class="ui form full-height">
+                <div class="body full-height">
+                    <div class="ui tabs">
+                        <div class="labels">
+                            <div class="tab-label active" tab="general">general</div>
+                            <div class="tab-label" tab="files">virtual files</div>
                         </div>
-                    </div>
-                        
-                    <div class="cols">
-                        <div class="col-8">
-                            <div class="input-group">
-                                <label for="host">host:</label>
-                                <input type="text" class="col-9" id="name" v-model="form.host">
+                        <div class="contents">
+                            <div class="tab-content active padding-v-8" tab-name="general">
+                                <div class="cols">
+                                    <div class="col-12">
+                                        <div class="input-group">
+                                            <label for="name">name:</label>
+                                            <input type="text" class="col-10" id="name" v-model="form.name">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="cols">
+                                    <div class="col-8">
+                                        <div class="input-group">
+                                            <label for="host">host:</label>
+                                            <input type="text" class="col-9" id="name" v-model="form.host">
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="input-group">
+                                            <label for="port">port:</label>
+                                            <input type="text" class="col-6" id="name" v-model="form.port">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="cols">
+                                    <div class="col-6">
+                                        <div class="input-group">
+                                            <label for="username">username:</label>
+                                            <input type="text" class="col-8" id="name" v-model="form.user">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="input-group">
+                                            <label for="password">password:</label>
+                                            <input type="password" class="col-8" id="name" v-model="form.password">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="cols">
+                                    <div class="col-12">
+                                        <div class="input-group">
+                                            <label for="remoteDir">remote dir:</label>
+                                            <input type="text" class="col-9" id="remoteDir" v-model="form.remoteDir">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="cols">
+                                    <div class="col-12">
+                                        <div class="input-group">
+                                            <label for="exclude">exclude:</label>
+                                            <textarea class="col-12" id="exclude" v-model="excludeLines" rows="8"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="input-group">
-                                <label for="port">port:</label>
-                                <input type="text" class="col-6" id="name" v-model="form.port">
-                            </div>
-                        </div>
-                    </div>
+                            <div class="tab-content" tab-name="files">
+                                <div class="padding-16">
+                                    <div class="ui note">
+                                        <i class="icon icon-info-circle"></i>
+                                        this files may not exists on project but you need to upload them.
+                                        <br /> this is useful for file like config files.
+                                    </div>
 
-                    <div class="cols">
-                        <div class="col-6">
-                            <div class="input-group">
-                                <label for="username">username:</label>
-                                <input type="text" class="col-8" id="name" v-model="form.user">
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="input-group">
-                                <label for="password">password:</label>
-                                <input type="password" class="col-8" id="name" v-model="form.password">
-                            </div>
-                        </div>
-                    </div>
+                                    <button class="ui btn small yellow float padding-h-16" @click="addFile()">
+                                        <i class="icon icon-plus"></i>
+                                        file
+                                    </button>
 
-                    <div class="cols">
-                        <div class="col-12">
-                            <div class="input-group">
-                                <label for="remoteDir">remote dir:</label>
-                                <input type="text" class="col-9" id="remoteDir" v-model="form.remoteDir">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="cols">
-                        <div class="col-12">
-                            <div class="input-group">
-                                <label for="exclude">exclude:</label>
-                                <textarea class="col-12"  id="exclude" v-model="excludeLines" rows="10"></textarea>
+                                    <div class="virtual-files-list">
+                                        <div class="file" v-for="file in files">
+                                            <button class="ui btn small inverse gray float right close" @click="removeFile(file)">
+                                                <i class="icon icon-trash"></i>
+                                            </button>
+                                            <span class="ui text gray sub pre-icon-file">
+                                                <i class="icon icon-file-code-o"></i>
+                                            </span>
+                                            <input type="text" v-model="file.path" placeholder="/path/to/your/file">
+                                            <textarea rows="5" v-model="file.content" placeholder="/* your code here */"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -87,6 +124,7 @@
     </div>
 
     <script src="assets/js/vue.min.js"></script>
+    <script src="src/js/ui/tabs.js"></script>
 
     <script>
         const modal = require('electron-modal');
@@ -120,7 +158,17 @@
             modal.close();
         };
 
+        methods.addFile = function () {
+            this.files.push({path: null, content: null});
+        }
+
+        methods.removeFile = function (file) {
+            this.files = this.files.filter(f => f !== file);
+        }
+
         modal.getData().then((data) => {
+            data.files = data.files || [{ path: null, content: null }];
+
             new Vue({ el: '#modal', data, methods, computed });
         });
     </script>

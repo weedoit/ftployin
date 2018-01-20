@@ -28,50 +28,63 @@
               <button class="ui btn green" v-on:click="addProject()">add project</button>
             </div>
           </div>
-          <div class="col-9 ui bg white-opacity no-padding-top">
+          <div class="col-9 ui bg white-opacity no-padding">
 
             <div v-if="currentProject">
-              <h1 class="ui">{{ currentProject.name }}</h1>
+              <h1 class="ui">
+                {{ currentProject.name }}
 
-              <div class="info">
-                <!-- <span class="ui text gray upper sub">local path:</span> -->
-                <span class="ui text green sub">{{ currentProject.path }}</span>
+                <button class="ui btn gray float right inverse" title="remove project">
+                  <i class="icon icon-trash"></i>
+                </button>
+              </h1>
+
+              <div class="info padding-h-16 lh-24 bg-white-opacity">
+                <span class="ui text green sub">
+                  <i class="icon icon-folder-open"></i>
+                  {{ currentProject.path }}
+                </span>
               </div>
 
-              <br>
-
-              <div class="cols envs-title">
-                <div class="col-9 no-padding">
-                  <span class="ui text upper sub bold gray no-margin">Enviroments</span>
-                </div>
-                <div class="col-3 no-padding">
-                  <button class="ui btn small yellow" @click="addEnv()">
-                    + new enviroment  
-                  </button>
-                </div>
-              </div>
-
-              <div class="env-list">
-                <div class="env-list-item cols" v-for="env in currentProject.envs">
-                  <div class="col-10 no-padding">
-                    <span class="ui text cyan sub">{{ env.name }}</span>
+              <div class="padding-h-16 ">
+                <div class="cols envs-title border bottom lh-24">
+                  <div class="col-11 no-padding">
+                    <span class="ui text upper sub bold gray no-margin ">Enviroments</span>
                   </div>
-                  <div class="col-2 no-padding">
-                    <div class="cols">
-                      <div class="col-4">
-                        <button class="ui btn small cyan" @click="editEnv(env)">
-                          <i class="ui icon edit"></i>
-                        </button>
-                      </div>
-                      <div class="col-4">
-                        <button class="ui btn small pink" @click="deleteEnv(env)">
-                          <i class="ui icon trash"></i>
-                        </button>
-                      </div>
-                      <div class="col-4">
-                        <button class="ui btn small green" @click="deploy(currentProject.path, env)">
-                          <i class="ui icon deploy"></i>
-                        </button>
+                  <div class="col-1 no-padding">
+                    <button class="ui btn small yellow" @click="addEnv()">
+                      <i class="icon icon-plus"></i> env  
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="padding-h-16">
+                <div class="env-list">
+                  <div class="env-list-item cols" v-for="env in currentProject.envs">
+                    <div class="col-10 no-padding">
+                      <span class="ui text cyan sub">
+                        <i class="icon icon-cube"></i>
+                        {{ env.name }}
+                      </span>
+                    </div>
+                    <div class="col-2 no-padding">
+                      <div class="cols actions">
+                        <div class="col-4">
+                          <button class="ui btn small cyan" @click="editEnv(env)">
+                            <i class="ui icon icon-edit"></i>
+                          </button>
+                        </div>
+                        <div class="col-4">
+                          <button class="ui btn small pink" @click="deleteEnv(env)">
+                            <i class="ui icon icon-trash"></i>
+                          </button>
+                        </div>
+                        <div class="col-4">
+                          <button class="ui btn small green" @click="deploy(currentProject.path, env)">
+                            <i class="ui icon icon-cloud-upload"></i>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -86,5 +99,6 @@
 
     <script src="assets/js/vue.min.js"></script>
     <script src="src/js/app.js"></script>
+    <script src="src/js/ui/tabs.js"></script>
   </body>
 </html>

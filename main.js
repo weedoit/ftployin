@@ -19,8 +19,10 @@ function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     backgroundColor: '#282a36',
-    width: 800,
-    height: 600,
+    width: 900,
+    height: 560,
+    minWidth: 900,
+    minHeight: 560,
     titleBarStyle: 'hiddenInset',
     title: 'ftployin',
     icon: path.join(__dirname, 'assets/icons/icon.png')
@@ -44,7 +46,7 @@ function createWindow () {
     mainWindow = null
   });
 
-  // client.create(mainWindow);
+  client.create(mainWindow);
 }
 
 // This method will be called when Electron has finished

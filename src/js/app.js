@@ -43,8 +43,19 @@ ViewModel.methods.editEnv = function (env) {
 }
 
 ViewModel.methods.deleteEnv = function (env) {
-    IO.deleteEnviroment(env.id);
-    this.currentProject = IO.getCurrentProject();
+    const options = {
+        message: `${this.currentProject.name} › ${env.name}`,
+        detail: 'are you sure you want to delete this environment?',
+        type: 'question',
+        buttons: ['yes', 'no']
+    }
+
+    dialog.showMessageBox(options, (index) => {
+        if (index === 0) {
+            IO.deleteEnviroment(env.id);
+            this.currentProject = IO.getCurrentProject();
+        }
+    });
 }
 
 ViewModel.methods.showEnvForm = function (action, model) {
