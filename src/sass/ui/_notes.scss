@@ -1,0 +1,17 @@
+.ui {
+    &.note {
+        color: $gray;
+        font-size: 12px;
+        padding: 8px;
+        padding-left: 0;
+        line-height: 14px;
+        border: 1px solid $gray;
+        border-radius: 4px;
+        margin-bottom: 8px;
+
+        .icon {
+            float: left;
+            margin: 8px 16px;
+        }
+    }
+}

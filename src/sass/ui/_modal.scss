@@ -1,8 +1,8 @@
 .ui {
     &.modal {
-        padding: 8px 0;
-
         .body {
+            height: calc(100% - 62px);
+            
             .cols {
                 padding: 0 8px;
 

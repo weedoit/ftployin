@@ -3,7 +3,17 @@
         background-color: $bg;
         
         &:hover {
-            background-color: darken($bg, 10%);
+            background-color: lighten($bg, 15%);
+        }
+
+        &.inverse {
+            background-color: transparent;
+            color: $bg;
+
+            &:hover {
+                background-color: transparent;
+                color: lighten($bg, 15%);
+            }
         }
     }
 }
@@ -11,7 +21,7 @@
 .ui {
     &.btn {
         cursor: pointer;
-        display: block;
+        display: inline-block;
         height: 30px;
         line-height: 30px;
         width: 100%;
@@ -22,6 +32,7 @@
         transition: all .3s ease;
         border-radius: 4px;
         color: rgba(0,0,0,.7);
+        vertical-align: middle;
 
         @include btn-style('purple', $purple);
         @include btn-style('gray', $gray);
@@ -31,9 +42,25 @@
         @include btn-style('green', $green);
         @include btn-style('purple', $purple);
 
+        .icon {
+            font-size: 16px;
+            line-height: 30px;
+            vertical-align: middle;
+        }
+
         &.small {
             height: 20px;
             line-height: 20px;
+
+            .icon {
+                font-size: 14px;
+                line-height: 20px;
+            }
+        }
+
+        &.float {
+            width: auto;
+            // padding: 0 8px;
         }
 
         &.disabled,
