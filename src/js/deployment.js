@@ -26,7 +26,11 @@ methods.processDeploy = function () {
         })
         .then(() => {
             this.feedback = 'uploading virtual files...';
-            return this.deploy.uploadVirtualFiles(this.env)
+            return this.deploy.uploadVirtualFiles();
+        })
+        .then(() => {
+            this.feedback = 'writing log files...';
+            return this.deploy.writeRemoteLog(this.diff);
         })
         .then(() => {
             this.deploying = false;
@@ -45,7 +49,6 @@ methods.onProgress = function (item) {
 
 methods.onDoneDeploy = function () {
     this.feedback = 'updating remote config file...';
-
     this.deploy.updateLastRemoteCommit(this.diff.to)
         .then(() => {
             this.feedback = null;
@@ -55,8 +58,9 @@ methods.onDoneDeploy = function () {
 };
 
 methods.onError = function (error) {
+    console.log(error);
     modal.emit('error', error.message || error);
-    modal.close();
+    // modal.close();
 }
 
 modal.getData().then((data) => {

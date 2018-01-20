@@ -1,4 +1,5 @@
 const REMOTE_LAST_COMMIT_FILE = '.ftployin-last-commit';
+const REMOTE_LOG_FILE = '.ftployin-deployment-log';
 const MAX_BUFFER = 1024 * 1024;
 
 const ftp = require('ftp');
@@ -6,6 +7,7 @@ const path = require('path');
 const git = require('ggit');
 const fs = require('fs');
 const tmp = require('tmp');
+const request = require('request');
 const child = require('child_process');
 
 const exec = function (command, cwd) {
@@ -47,7 +49,8 @@ class Deploy {
                 host: this.env.host,
                 port: this.env.port,
                 user: this.env.user,
-                password: this.env.password
+                password: this.env.password,
+                secure: this.env.secure || false
             });
         });
     }
@@ -221,7 +224,7 @@ class Deploy {
                             const file = tmp.fileSync();
                             fs.writeFileSync(file.name, item.content);
 
-                            return this.connection.put(file.name, remotePath, (err) => {
+                            return this.connection.append(file.name, remotePath, (err) => {
                                 file.removeCallback();
                                 return (err) ? reject(err) : resolve();
                             });
@@ -296,13 +299,13 @@ class Deploy {
         });
     }
 
-    uploadVirtualFiles (env) {
-        if (!env.files || !env.files.length) {
+    uploadVirtualFiles () {
+        if (!this.env.files || !this.env.files.length) {
             return Promise.resolve();
         }
 
         return new Promise((resolve, reject) => {
-            const queue = env.files.map((file) => ({
+            const queue = this.env.files.map((file) => ({
                 virtual: true,
                 mode: 'upload',
                 path: file.path,
@@ -312,6 +315,44 @@ class Deploy {
             this.processQueue(queue)
                 .then(resolve)
                 .catch(reject);
+        });
+    }
+
+    writeRemoteLog (diff) {
+        return new Promise((resolve, reject) => {
+            const file = tmp.fileSync();
+            const filepath = file.name;
+            const remote = this.getRemotePath(REMOTE_LOG_FILE);
+
+            this.getMyPublicIp()
+                .then((ip) => {
+                    const log = `${(new Date()).getTime()} @ ${ip} - ${diff.from || ''} -> ${diff.to}\n`;
+                    fs.writeFileSync(filepath, log);
+
+                    this.connection.append(filepath, remote, function (err) {
+                        file.removeCallback();
+
+                        if (err) {
+                            return reject(err);
+                        }
+
+                        resolve();
+                    });
+                });
+        });   
+    }
+
+    getMyPublicIp () {
+        const api = 'https://api.ipify.org?format=json';
+
+        return new Promise((resolve, reject) => {
+            request(api, (err, res, body) => {
+                if (err) {
+                    reject(err);
+                }
+
+                resolve(JSON.parse(body).ip);
+            });
         });
     }
 }
