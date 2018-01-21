@@ -1,0 +1,52 @@
+.deployment {
+    padding: 0!important;
+
+    .file-list {
+        height: calc(100% - 102px);
+        overflow-y: auto;
+        width: 100%;
+
+        ul > li {
+            border-bottom: 1px solid $white-10p;
+            padding: 4px 16px;
+            line-height: 20px;
+        }
+    }
+
+    .log-box {
+        height: 100%;
+        overflow-y: auto;
+        width: 100%;
+        font-size: 12px;
+        padding: 8px 16px;
+        line-height: 18px;
+        color: #fff;
+        font-family: Menlo, Courier, monospace;
+        font-weight: bold;
+        background: $white-10p;
+    }
+
+    .footer {
+        background-color: rgba(0, 0, 0, .1);
+    }
+
+    .feedback {
+        padding: 20% 50px;
+        text-align: center;
+        color: $gray;
+        font-size: 12px;
+    }
+
+    .progress {
+        line-height: 30px;
+    }
+
+    .done {
+        padding: 80px;
+
+        .icon {
+            height: 64px;
+            width: 64px;
+        }
+    }
+}

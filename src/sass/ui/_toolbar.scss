@@ -1,0 +1,15 @@
+.ui {
+    &.toolbar {
+        height: 40px;
+        font-size: 12px;
+        border-bottom: 1px solid $white-10p;
+        padding: 8px;
+
+        .cols {
+            > [class*="col-"] {
+                padding: 0 8px 0 8px;
+                line-height: 24px;
+            }
+        }
+    }
+}

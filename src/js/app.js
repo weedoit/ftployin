@@ -1,6 +1,7 @@
 const { dialog } = require('electron').remote;
 const ViewModel = {data: {}, methods: {}, computed: {}};
 const IO = require('./src/js/data/io.js');
+const modal = require('electron-modal');
 
 ViewModel.data.title = '[ftployin]';
 ViewModel.data.projects = IO.getProjects();
@@ -116,7 +117,7 @@ ViewModel.methods.callAlert = function (dialog, color) {
 }
 
 function openEnvFormModal(title, action, model) {
-    const modal = require('electron-modal');
+    
     const path = require('path');
     const file = path.join(__dirname, 'env-form.html');
     const data = {
@@ -138,12 +139,11 @@ function openEnvFormModal(title, action, model) {
 }
 
 ViewModel.methods.deploy = function (projectPath, env) {
-    const modal = require('electron-modal');
     const path = require('path');
     const file = path.join(__dirname, 'deployment.html');
-    const data = { projectPath, env };
+    const data = { projectPath, env, modal: () => modal };
     const params = {
-        width: 700,
+        width: 720,
         height: 500,
         backgroundColor: '#2a2d37',
         titleBarStyle: 'hiddenInset'

@@ -4,6 +4,7 @@
 @import 'utils/colors';
 
 @import 'ui/window';
+@import 'ui/toolbar';
 @import 'ui/tabs';
 @import 'ui/code-editor';
 @import 'ui/notes';
@@ -23,6 +24,16 @@
 @import 'ui/welcome';
 @import 'ui/search';
 
+@import 'pages/main';
+@import 'pages/deployment';
+@import 'pages/env-form';
+@import 'pages/edit-diff';
+@import 'pages/aside';
+
+#modal {
+    height: 100%;
+}
+
 .fade {
     visibility: hidden;
     opacity: 0;
@@ -34,129 +45,7 @@
     }
 }
 
-#aside{
-    overflow:hidden;
-}
-
-.footer {
-    position: absolute;
-    bottom: 0;
-    padding: 16px;
-    left: 0;
-    width: 100%;
-}
 
 .envs-title {
     padding: 8px 0;
-}
-
-.env-list {
-    height:calc(100vh - 200px);
-    padding: 0 10px;
-    overflow-y:auto;
-
-    .env-list-item {
-        .cols [class*='col-'] {
-            padding: 0 4px;
-        }
-
-        .actions {
-            transform: translateX(4px);
-        }
-
-        padding: 8px 0;
-        border-bottom: 1px solid $white-10p;
-        line-height: 20px;
-        height: 38px;
-        font-size: 14px;
-
-        &:last-child {
-            border-bottom: 0;
-        }
-    }
-}
-
-#modal {
-    height: 100%;
-}
-
-.deployment {
-    padding: 0!important;
-
-    .file-list {
-        height: calc(100% - 62px);
-        overflow-y: auto;
-
-        ul > li {
-            border-bottom: 1px solid $white-10p;
-            padding: 4px 16px;
-            line-height: 20px;
-        }
-    }
-
-    .footer {
-        background-color: rgba(0, 0, 0, .1);
-    }
-
-    .feedback {
-        padding: 20% 50px;
-        text-align: center;
-        color: $gray;
-        font-size: 12px;
-    }
-
-    .progress {
-        line-height: 30px;
-    }
-
-    .done {
-        padding: 80px;
-
-        .icon {
-            height: 64px;
-            width: 64px;
-        }
-    }
-}
-
-.virtual-files-list {
-    .file {
-        .title {
-            font-size: 0;
-            padding: 8px;
-            border: 1px solid $white-10p;
-            border-bottom-width: 0;
-            margin-top: 8px;
-            padding-left: 0;
-
-            .pre-icon-file {
-                width: 30px;
-                text-align: center;
-                color: lighten($white-10p, 20%);
-                display: inline-block;
-                border-right: 1px solid $white-10p;
-            }
-
-            .close {
-                width: 22px;
-                margin-top: -2px;
-            }
-
-            input {
-                -webkit-appearance: none;
-                background: transparent;
-                border: 0;
-                color: $cyan;
-                width: calc(100% - 60px);
-                line-height: 18px;
-                font-size: 12px;
-                padding: 0 0 0 8px;
-            }
-        }
-
-        .code-editor {
-            max-height: 180px;
-            overflow-y: auto;
-        }
-    }
 }

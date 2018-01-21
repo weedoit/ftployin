@@ -1,0 +1,23 @@
+.env-list {
+    padding: 0;
+
+    .env-list-item {
+        .cols [class*='col-'] {
+            padding: 0 4px;
+        }
+
+        .actions {
+            transform: translateX(4px);
+        }
+
+        padding: 8px 0;
+        border-bottom: 1px solid $white-10p;
+        line-height: 20px;
+        height: 38px;
+        font-size: 14px;
+
+        &:last-child {
+            border-bottom: 0;
+        }
+    }
+}

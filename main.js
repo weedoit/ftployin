@@ -1,3 +1,5 @@
+const IS_DEV = require('electron-is-dev');
+
 const electron = require('electron')
 // Module to control application life.
 const app = electron.app
@@ -46,7 +48,9 @@ function createWindow () {
     mainWindow = null
   });
 
-  client.create(mainWindow);
+  if (IS_DEV) {
+    client.create(mainWindow);
+  }
 }
 
 // This method will be called when Electron has finished

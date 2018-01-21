@@ -34,7 +34,9 @@
                 @click="selectProject(project)"
               >
                   <span>{{ project.name }}</span>
-                  <span class="remove-project" @click="removeProject(currentProject)"></span>
+                  <span class="remove-project" @click="removeProject(currentProject)">
+                      <i class="ui icon icon-trash"></i>
+                  </span>
               </li>
             </ul>
 
@@ -108,7 +110,8 @@
 
             <div id="welcome" class="ui" v-else>
                 <span class="title-welcome">
-                    welcome to the <span>ftployin</span>
+                    <!-- welcome to the <span>ftployin</span> -->
+                    <img src="assets/icons/logo-dark.svg" alt="ftployin">
                 </span>
             </div>
 

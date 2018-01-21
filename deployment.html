@@ -9,7 +9,23 @@
     <div id="modal" class="fade" v-bind:class="{show: vueLoaded}">
         <div class="ui window-title drag-region">{{ title }}</div>
 
-        <div class="ui window-body modal deployment" v-if="!done">
+        <div class="ui window-body modal deployment">
+            <div class="ui toolbar fade" :class="{show: loaded}">
+                <div class="cols">
+                    <div class="col-11" :title="diff.edited ? 'this config has been edited' : ''">
+                        <i class="icon icon-clock-o ui text cyan"></i>
+                        <span class="ui text sub bold" :class="{gray: !diff.edited, pink: diff.edited}">{{ (diff.from) ? diff.from : 'zero point' }}</span>
+
+                        <i class="icon icon-long-arrow-right ui text gray"></i>
+                        <span class="ui text sub bold" :class="{gray: !diff.edited, pink: diff.edited}">{{ diff.to }}</span>
+                    </div>
+                    <div class="col-1">
+                        <button class="ui btn small cyan fade" @click="changeDiff()" :class="{show: !deploying}">
+                            <i class="ui icon icon-edit"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
             <div class="file-list">
                 <div class="feedback" v-if="!loaded">
                     Fetching diffs...
@@ -17,20 +33,21 @@
                 <div class="feedback" v-if="loaded && files.length == 0">
                     Oops! There is nothing to be deployed.
                 </div>
-                <ul>
+                <ul v-if="showFiles">
                     <li v-for="file in files">                        
-                        <input type="checkbox" v-model="file.selected" v-if="!deploying"/>
+                        <input type="checkbox" v-model="file.selected" />
                         <span class="ui text sub" :class="{purple: !file.selected, green: file.selected }">
                             <strong>{{ file.mode }}</strong>  {{ file.path }}
                         </span>
                     </li>
                 </ul>
+                <pre class="log-box" v-if="showLogBox">{{ log }}</pre>
             </div>
 
             <div class="footer">
                 <div class="cols">
                     <div class="col-1">
-                        <div class="ui loader" v-if="deploying || !connected || !loaded "></div>
+                        <div class="ui loader" v-if="(deploying && !done) || !connected || !loaded "></div>
                     </div>
                     <div class="col-9">
                         <div class="ui text sub green progress">{{ feedback }}</div>
@@ -39,39 +56,14 @@
                         <button 
                             class="ui btn green"
                             v-on:click="processDeploy()"
-                            v-bind:class="{disabled: deploying}"
-                            v-if="loaded && files.length"
-                        >{{ deploying ? 'deploying' : 'deploy'}}</button>
+                            v-if="!deploying && !done && files.length > 0"
+                        >deploy</button>
 
                         <button 
-                            class="ui btn pink"
+                            class="ui btn green"
                             v-on:click="close()"
-                            v-if="loaded && files.length == 0"
+                            v-if="(loaded && files.length == 0) || (files.length > 0 && done)"
                         >close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="ui window-body modal deployment" v-if="done">
-            <div class="done">
-                <div class="cols">
-                    <div class="col-2">
-                        <i class="ui icon check"></i>
-                    </div>
-                    <div class="col-10">
-                        <span class="ui text green">deployed!</span><br><br>
-                        <span class="ui text gray sub">from: {{ diff.from }}</span><br>
-                        <span class="ui text gray sub">to: {{ diff.to }}</span><br>
-                    </div>
-                </div>
-            </div>
-            <div class="footer">
-                <div class="cols">
-                    <div class="col-1"></div>
-                    <div class="col-9"></div>
-                    <div class="col-2">
-                        <button class="ui btn pink" v-on:click="close()">close</button>
                     </div>
                 </div>
             </div>

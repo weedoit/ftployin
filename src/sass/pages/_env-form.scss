@@ -1,0 +1,47 @@
+.env-form {
+    .footer {
+        background-color: rgba(0,0,0,0.1);
+    }
+
+    .virtual-files-list {
+        .file {
+            .title {
+                font-size: 0;
+                padding: 8px;
+                border: 1px solid $white-10p;
+                border-bottom-width: 0;
+                margin-top: 8px;
+                padding-left: 0;
+                
+                .pre-icon-file {
+                    width: 30px;
+                    text-align: center;
+                    color: lighten($white-10p, 20%);
+                    display: inline-block;
+                    border-right: 1px solid $white-10p;
+                }
+        
+                .close {
+                    width: 22px;
+                    margin-top: -2px;
+                }
+
+                input {
+                    -webkit-appearance: none;
+                    background: transparent;
+                    border: 0;
+                    color: $cyan;
+                    width: calc(100% - 60px);
+                    line-height: 18px;
+                    font-size: 12px;
+                    padding: 0 0 0 8px;
+                }
+            }
+
+            .code-editor {
+                max-height: 180px;
+                overflow-y: auto;
+            }
+        }
+    }
+}
