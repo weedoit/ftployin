@@ -25,7 +25,8 @@
             &:hover {
                 border-left-color: $green;
                 color: $green;
-
+            }
+            &.selected{
                 .remove-project{
                     background:$red;
                     opacity:0.6;

@@ -26,7 +26,7 @@
                 v-bind:class="{selected: project.selected}"
                 @click="selectProject(project)"
               >
-                  {{ project.name }}
+                  <span>{{ project.name }}</span>
                   <span class="remove-project" @click="removeProject(currentProject)"></span>
               </li>
             </ul>
@@ -99,7 +99,20 @@
               </div>
             </div>
 
+            <div id="welcome" class="ui" v-else>
+                <span class="title-welcome">
+                    welcome to the <span>ftployin</span>
+                </span>
+            </div>
+
+            <div id="infos-projects-footer" class="ui">
+                <span class="elements lenght-projects">
+                  <span v-if="lengthProject <= 0"><i class="ui icon icon-folder" aria-hidden="true"></i> none project added</span>
+                  <span v-else><i class="ui icon icon-folder" aria-hidden="true"></i> {{lengthProject}} project<span v-if="lengthProject > 1">s</span></span>
+                </span>
+            </div>
           </div>
+
         </div>
       </div>
     </div>

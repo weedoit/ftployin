@@ -5,6 +5,7 @@ const IO = require('./src/js/data/io.js');
 ViewModel.data.title = '[ftployin]';
 ViewModel.data.projects = IO.getProjects();
 ViewModel.data.currentProject = IO.getCurrentProject();
+ViewModel.data.lengthProject = ViewModel.data.projects.length;
 ViewModel.data.alert = false;
 ViewModel.data.alertColor = 'gray';
 ViewModel.data.alertDialog = '';
@@ -15,12 +16,14 @@ ViewModel.methods.addProject = function () {
         properties: ["openDirectory"]
     }, (folderPaths) => {
         const folder = folderPaths[0];
+        const project = this.currentProject;
 
         if (folder) {
             if (IO.isAGitRepository(folder)) {
                 IO.addNewProject(folderPaths[0]);
                 ViewModel.data.projects = IO.getProjects();
-                this.callAlert('Project created with success', 'green');
+                this.lengthProject = ViewModel.data.projects.length;
+                this.callAlert('Projec add with success', 'green');
             } else {
                 // dialog.showErrorBox('Oops!', 'The selected directory is not a git repository.');
                 this.callAlert('Oops! The selected directory is not a git repository.', 'red');
@@ -93,6 +96,7 @@ ViewModel.methods.removeProject = function (project) {
 
     IO.deleteProject(project.id);
     this.projects = IO.getProjects();
+    this.lengthProject = ViewModel.data.projects.length;
 }
 
 ViewModel.methods.callAlert = function (dialog, color) {

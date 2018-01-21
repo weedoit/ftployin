@@ -18,7 +18,9 @@
 @import 'ui/form';
 @import 'ui/modal';
 @import 'ui/headings';
+@import 'ui/footer';
 @import 'ui/alert';
+@import 'ui/welcome';
 
 .fade {
     visibility: hidden;
@@ -44,7 +46,9 @@
 }
 
 .env-list {
-    padding: 0;
+    height:calc(100vh - 200px);
+    padding: 0 10px;
+    overflow-y:auto;
 
     .env-list-item {
         .cols [class*='col-'] {
