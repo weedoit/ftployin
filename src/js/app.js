@@ -5,6 +5,9 @@ const IO = require('./src/js/data/io.js');
 ViewModel.data.title = '[ftployin]';
 ViewModel.data.projects = IO.getProjects();
 ViewModel.data.currentProject = IO.getCurrentProject();
+ViewModel.data.alert = false;
+ViewModel.data.alertColor = 'gray';
+ViewModel.data.alertDialog = '';
 
 ViewModel.methods.addProject = function () {
     dialog.showOpenDialog({
@@ -17,8 +20,10 @@ ViewModel.methods.addProject = function () {
             if (IO.isAGitRepository(folder)) {
                 IO.addNewProject(folderPaths[0]);
                 ViewModel.data.projects = IO.getProjects();
+                this.callAlert('Project created with success', 'green');
             } else {
-                dialog.showErrorBox('Oops!', 'The selected directory is not a git repository.');
+                // dialog.showErrorBox('Oops!', 'The selected directory is not a git repository.');
+                this.callAlert('Oops! The selected directory is not a git repository.', 'red');
             }
         }
     });
@@ -59,7 +64,7 @@ ViewModel.methods.deleteEnv = function (env) {
 }
 
 ViewModel.methods.showEnvForm = function (action, model) {
-    const title = action === 'create' 
+    const title = action === 'create'
         ? 'create new enviroment'
         : 'edit enviroment';
 
@@ -88,6 +93,20 @@ ViewModel.methods.removeProject = function (project) {
 
     IO.deleteProject(project.id);
     this.projects = IO.getProjects();
+}
+
+ViewModel.methods.callAlert = function (dialog, color) {
+    this.alert = true;
+    this.alertColor = color;
+    this.alertDialog = dialog;
+    let alert = this.$refs.boxAlert;
+
+    alert.classList.add("active");
+
+    setTimeout(function () {
+        this.alert = false;
+        alert.classList.remove("active");
+    }, 3000);
 }
 
 function openEnvFormModal(title, action, model) {
@@ -123,7 +142,7 @@ ViewModel.methods.deploy = function (projectPath, env) {
         backgroundColor: '#2a2d37',
         titleBarStyle: 'hiddenInset'
     };
-    
+
     modal.open(file, params, data).then((instance) => {
         instance.on('error', (err) => {
             dialog.showErrorBox('Oops!', err);

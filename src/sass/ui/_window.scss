@@ -12,6 +12,7 @@
     &.window-body {
         height: calc(100% - 40px);
         width: 100%;
+        position:relative;
         overflow: hidden;
     }
 }

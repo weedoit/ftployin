@@ -8,20 +8,27 @@
   <body>
     <div id="app">
       <div class="ui window-title drag-region">{{ title }}</div>
-      
+
       <div class="ui window-body">
+          <div class="ui alert" :class="[{active: alert}, alertColor]" id="boxAlert" ref="boxAlert">
+              {{ alertDialog }}
+          </div>
+
         <div class="cols full-height">
           <div class="col-3">
 
             <div class="ui text sub upper purple bold">projects</div>
 
             <ul class="ui nav">
-              <li 
+              <li
                 class="nav-item"
                 v-for="project in projects"
                 v-bind:class="{selected: project.selected}"
                 @click="selectProject(project)"
-              >{{ project.name }}</li>
+              >
+                  {{ project.name }}
+                  <span class="remove-project" @click="removeProject(currentProject)"></span>
+              </li>
             </ul>
 
             <div class="footer">
@@ -53,7 +60,7 @@
                   </div>
                   <div class="col-1 no-padding">
                     <button class="ui btn small yellow" @click="addEnv()">
-                      <i class="icon icon-plus"></i> env  
+                      <i class="icon icon-plus"></i> env
                     </button>
                   </div>
                 </div>
