@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>ftployin</title>
+    <link rel="stylesheet" href="assets/css/app.min.css">
+</head>
+
+<body>
+    <div id="modal">
+        <div class="ui window-title drag-region">change diff</div>
+
+        <div class="ui window-body modal edit-diff-page">
+            <div class="ui form full-height">
+                <div class="body full-height">
+                    <div class="ui form padding-h-16">
+                        <div class="ui note">
+                            <i class="icon icon-warning"></i>
+                            changing suggested configs you can break your application. be careful!
+                        </div>
+
+                        <div class="input-group select">
+                            <label for="from">from: </label>
+                            <select id="from" v-model="from">
+                                <option v-for="commit in commits" :value="commit.hash">
+                                    {{ commit.shortHash }} - {{ commit.title }}
+                                </option>
+                                <option value="">ZERO POINT (this will deploy the entire project)</option>
+                            </select>
+                        </div>
+
+                        <!-- <div class="input-group select">
+                            <label for="from">to:</label>
+                            <select id="from" v-model="to">
+                                <option value=""></option>
+                                <option v-for="commit in validTargetCommits" :value="commit.hash">
+                                    {{ commit.shortHash }} - {{ commit.title }}
+                                </option>
+                            </select>
+                        </div> -->
+                    </div>
+                </div>
+
+                <div class="footer">
+                    <div class="cols">
+                        <div class="col-2">
+                            <button class="ui btn pink" v-on:click="close()">cancel</button>
+                        </div>
+                        <div class="col-2 offset-8">
+                            <button class="ui btn green" v-on:click="save()">change</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/vue.min.js"></script>
+    <script src="src/js/ui/tabs.js"></script>
+    <script src="src/js/ui/code-editor.js"></script>
+
+    <script>
+        const modal = require('electron-modal');
+        const path = require('path');
+        const GitUtils = require(path.join(__dirname, 'src/js/data/git-utils.js'));
+        const methods = {};
+        const filters = {};
+        const computed = {};
+
+        methods.save = function () {
+            modal.emit('save', { from: this.from || null, to: this.to });
+            modal.close();
+        };
+
+        methods.close = function () {
+            modal.close();
+        };
+
+        computed.validTargetCommits = {
+            get: function () {
+                const len = this.commits.length;
+                let lastValidCommitIndex = len;
+
+                for (let x = 0; x < len; x += 1) {
+                    const cur = this.commits[x];
+
+                    if (cur.hash === this.from) {
+                        lastValidCommitIndex = x + 1;
+                        break;
+                    }
+                }
+
+                return this.commits.filter((c, i) => i < lastValidCommitIndex);
+            }
+        }
+
+        modal.getData().then((data) => {
+            GitUtils.getAllCommitsList(data.cwd)
+                .then(list => { data.commits = list; })
+                .then(() => new Vue({ el: '#modal', data, methods, computed, filters }))
+                .catch((err) => {
+                    console.log(err);
+                });
+        });
+    </script>
+</body>
+
+</html>

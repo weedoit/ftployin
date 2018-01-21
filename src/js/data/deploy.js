@@ -126,7 +126,7 @@ class Deploy {
 
         if (from === null) {
             return new Promise((resolve, reject) => {
-                const command = `git ls-tree -r HEAD --name-only`;
+                const command = `git ls-tree -r ${to} --name-only`;
 
                 exec(command, this.path)
                     .then(list => list.split('\n'))
@@ -138,13 +138,15 @@ class Deploy {
             });
         } else {   
             return new Promise((resolve, reject) => {
-                const command = `git diff --name-status ${from} ${to}`;
+                const command = `git diff --name-status ${from}..${to}`;
                 
+                console.log(command);
+
                 exec(command, this.path)
                     .then(list => list.split('\n'))
                     .then(lines => lines.filter((line) => line))
                     .then(lines => lines.map((line) => line.split('\t')))
-                    .then(lines => lines.map((line) => ({ mode: line[0], path: line[1], selected: true }) ))
+                    .then(lines => lines.map((line) => ({ mode: line[0][0], path: line.slice(1).join(' -> '), selected: true }) ))
                     .then(lines => this.removeExcluded(lines))
                     .then(resolve)
                     .catch(reject);
@@ -183,25 +185,54 @@ class Deploy {
             for (x = 0; x < len; x += 1) {
                 file = files[x];
 
-                if (file.mode === 'A') {
-                    dir = path.dirname(file.path);
+                switch (file.mode) {
+                    case 'A':
+                        dir = path.dirname(file.path);
+    
+                        if (dir !== null && dir !== '.' && mkdirQueue.indexOf(dir) === -1) {
+                            mkdirQueue.push(dir);
+                            queue.push({ mode: 'mkdir', path: dir });
+                        }
+    
+                        queue.push({ mode: 'upload', path: file.path });
+                        break;
+                    case 'M':
+                        queue.push({ mode: 'upload', path: file.path });
+                        break;
+                    case 'D':
+                        dir = path.dirname(file.path);
+                        queue.push({ mode: 'delete', path: file.path });
+    
+                        if (dir !== null && dir !== '.' && mkdirQueue.indexOf(dir) === -1 && !this.dirExists(dir)) {
+                            mkdirQueue.push(dir);
+                            queue.push({ mode: 'rmdir', path: dir });
+                        }
 
-                    if (dir !== null && mkdirQueue.indexOf(dir) === -1) {
-                        mkdirQueue.push(dir);
-                        queue.push({ mode: 'mkdir', path: dir });
-                    }
+                        break;
+                    case 'R':
+                        let [from, to] = file.path.split(' -> ');
+                        const toDir = path.dirname(to);
+                        const fromDir = path.dirname(from);
 
-                    queue.push({ mode: 'upload', path: file.path });
-                } else if (file.mode === 'M') {
-                    queue.push({ mode: 'upload', path: file.path });
-                } else if (file.mode === 'D') {
-                    dir = path.dirname(file.path);
-                    queue.push({ mode: 'delete', path: file.path });
+                        // Upload new file
+                        if (toDir !== null && toDir !== '.' && mkdirQueue.indexOf(toDir) === -1) {
+                            mkdirQueue.push(toDir);
+                            queue.push({ mode: 'mkdir', path: toDir });
+                        }
 
-                    if (dir !== null && mkdirQueue.indexOf(dir) === -1 && !this.dirExists(dir)) {
-                        mkdirQueue.push(dir);
-                        queue.push({ mode: 'rmdir', path: dir });
-                    }
+                        queue.push({ mode: 'upload', path: to });
+
+                        // Remove old file
+                        queue.push({ mode: 'delete', path: from });
+
+                        if (fromDir !== null && fromDir !== '.' && mkdirQueue.indexOf(dir) === -1 && !this.dirExists(fromDir)) {
+                            mkdirQueue.push(fromDir);
+                            queue.push({ mode: 'rmdir', path: fromDir });
+                        }
+
+                        break;
+                    default:
+                        break;
                 }
             }
 
@@ -209,7 +240,7 @@ class Deploy {
         });
     }
 
-    processQueue(preQueue, onDoneItem) {
+    processQueue(preQueue, onStartItem, onDoneItem) {
         const queue = arr2iterator(preQueue);
 
         const doItemJob = (item) => {
@@ -217,6 +248,8 @@ class Deploy {
                 const mode = item.mode;
                 const localPath = path.join(this.path, item.path);
                 const remotePath = this.getRemotePath(item.path);
+
+                onStartItem && onStartItem(item);
 
                 switch (mode) {
                     case 'upload':
@@ -318,7 +351,7 @@ class Deploy {
         });
     }
 
-    writeRemoteLog (diff) {
+    writeRemoteLog (diff, status) {
         return new Promise((resolve, reject) => {
             const file = tmp.fileSync();
             const filepath = file.name;
@@ -326,7 +359,7 @@ class Deploy {
 
             this.getMyPublicIp()
                 .then((ip) => {
-                    const log = `${(new Date()).getTime()} @ ${ip} - ${diff.from || ''} -> ${diff.to}\n`;
+                    const log = `${(new Date()).getTime()} @ ${ip} - ${diff.from || ''} -> ${diff.to}\n -- ${status}`;
                     fs.writeFileSync(filepath, log);
 
                     this.connection.append(filepath, remote, function (err) {
