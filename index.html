@@ -10,19 +10,26 @@
       <div class="ui window-title drag-region">{{ title }}</div>
 
       <div class="ui window-body">
-          <div class="ui alert" :class="[{active: alert}, alertColor]" id="boxAlert" ref="boxAlert">
-              {{ alertDialog }}
-          </div>
 
         <div class="cols full-height">
-          <div class="col-3">
+          <div id="aside" class="col-3">
 
-            <div class="ui text sub upper purple bold">projects</div>
+            <div class="ui text sub upper purple bold title-sidebar">
+                <transition name="fade" v-if="activeSearch">
+                    <div id="wrap-search" class="ui">
+                      <input type="text" v-model="search" placeholder="search project..">
+                    </div>
+                </transition>
+                projects
+                <i class="ui icon icon-search" aria-hidden="true" v-on:click="activeSearch = !activeSearch" v-if="lengthProject > 1" v-show="!activeSearch"></i>
+                <i class="ui icon icon-times-circle" aria-hidden="true" v-on:click="removeSearch" v-show="activeSearch"></i>
+            </div>
 
             <ul class="ui nav">
+              <!-- v-for="project in projects" -->
               <li
                 class="nav-item"
-                v-for="project in projects"
+                v-for="project in searchList"
                 v-bind:class="{selected: project.selected}"
                 @click="selectProject(project)"
               >
@@ -110,6 +117,9 @@
                   <span v-if="lengthProject <= 0"><i class="ui icon icon-folder" aria-hidden="true"></i> none project added</span>
                   <span v-else><i class="ui icon icon-folder" aria-hidden="true"></i> {{lengthProject}} project<span v-if="lengthProject > 1">s</span></span>
                 </span>
+            </div>
+            <div class="ui alert" :class="[{active: alert}, alertColor]" id="boxAlert" ref="boxAlert">
+                {{ alertDialog }}
             </div>
           </div>
 

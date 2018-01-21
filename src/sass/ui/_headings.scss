@@ -22,4 +22,22 @@
     h5 {
         font-size: 14px;
     }
+
+    .title-sidebar{
+        position:relative;
+
+        i{
+            font-size:14px;
+            text-align: center;
+            color:$purple;
+            float:right;
+            cursor:pointer;
+            transition: all 300ms ease;
+
+            &:hover{
+                color:$pink;
+                transition: all 300ms ease;
+            }
+        }
+    }
 }

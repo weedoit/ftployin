@@ -1,5 +1,5 @@
 const { dialog } = require('electron').remote;
-const ViewModel = {data: {}, methods: {}};
+const ViewModel = {data: {}, methods: {}, computed: {}};
 const IO = require('./src/js/data/io.js');
 
 ViewModel.data.title = '[ftployin]';
@@ -9,6 +9,8 @@ ViewModel.data.lengthProject = ViewModel.data.projects.length;
 ViewModel.data.alert = false;
 ViewModel.data.alertColor = 'gray';
 ViewModel.data.alertDialog = '';
+ViewModel.data.activeSearch = false;
+ViewModel.data.search = '';
 
 ViewModel.methods.addProject = function () {
     dialog.showOpenDialog({
@@ -154,8 +156,19 @@ ViewModel.methods.deploy = function (projectPath, env) {
     });
 };
 
+ViewModel.computed.searchList = function () {
+    var self=this;
+    return this.projects.filter(function(cust){return cust.name.toLowerCase().indexOf(self.search.toLowerCase())>=0;});
+}
+
+ViewModel.methods.removeSearch = function () {
+    this.activeSearch = !this.activeSearch;
+    this.search = '';
+}
+
 const App = new Vue({
     el: '#app',
     data: ViewModel.data,
-    methods: ViewModel.methods
+    methods: ViewModel.methods,
+    computed: ViewModel.computed
 });

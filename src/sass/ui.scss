@@ -21,6 +21,7 @@
 @import 'ui/footer';
 @import 'ui/alert';
 @import 'ui/welcome';
+@import 'ui/search';
 
 .fade {
     visibility: hidden;
@@ -31,6 +32,10 @@
         visibility: visible;
         opacity: 1;
     }
+}
+
+#aside{
+    overflow:hidden;
 }
 
 .footer {
