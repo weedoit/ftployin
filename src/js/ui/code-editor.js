@@ -14,7 +14,6 @@ Vue.component('code-editor', {
             set: function (code) {
                 this.code = code;
                 this.$emit('update', code);
-                console.log(code);
             }
         }
     },
