@@ -34,9 +34,6 @@
                 @click="selectProject(project)"
               >
                   <span>{{ project.name }}</span>
-                  <span class="remove-project" @click="removeProject(currentProject)">
-                      <i class="ui icon icon-trash"></i>
-                  </span>
               </li>
             </ul>
 
@@ -115,12 +112,12 @@
                 </span>
             </div>
 
-            <div id="infos-projects-footer" class="ui">
+            <!-- <div id="infos-projects-footer" class="ui">
                 <span class="elements lenght-projects">
                   <span v-if="lengthProject <= 0"><i class="ui icon icon-folder" aria-hidden="true"></i> none project added</span>
                   <span v-else><i class="ui icon icon-folder" aria-hidden="true"></i> {{lengthProject}} project<span v-if="lengthProject > 1">s</span></span>
                 </span>
-            </div>
+            </div> -->
             <div class="ui alert" :class="[{active: alert}, alertColor]" id="boxAlert" ref="boxAlert">
                 {{ alertDialog }}
             </div>
