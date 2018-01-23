@@ -3,7 +3,7 @@
         background-color: $bg;
         
         &:hover {
-            background-color: lighten($bg, 15%);
+            background-color: darken($bg, 15%);
         }
 
         &.inverse {
@@ -12,7 +12,7 @@
 
             &:hover {
                 background-color: transparent;
-                color: lighten($bg, 15%);
+                color: darken($bg, 15%);
             }
         }
     }

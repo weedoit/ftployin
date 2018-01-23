@@ -6,7 +6,6 @@ const modal = require('electron-modal');
 ViewModel.data.title = '[ftployin]';
 ViewModel.data.projects = IO.getProjects();
 ViewModel.data.currentProject = IO.getCurrentProject();
-ViewModel.data.lengthProject = ViewModel.data.projects.length;
 ViewModel.data.alert = false;
 ViewModel.data.alertColor = 'gray';
 ViewModel.data.alertDialog = '';
@@ -25,11 +24,9 @@ ViewModel.methods.addProject = function () {
             if (IO.isAGitRepository(folder)) {
                 IO.addNewProject(folderPaths[0]);
                 ViewModel.data.projects = IO.getProjects();
-                this.lengthProject = ViewModel.data.projects.length;
-                this.callAlert('Projec add with success', 'green');
+                this.callAlert('project added with success!', 'green');
             } else {
-                // dialog.showErrorBox('Oops!', 'The selected directory is not a git repository.');
-                this.callAlert('Oops! The selected directory is not a git repository.', 'red');
+                this.callAlert('oops! the selected directory is not a git repository.', 'red');
             }
         }
     });
@@ -93,13 +90,24 @@ ViewModel.methods.selectProject = function (project) {
 }
 
 ViewModel.methods.removeProject = function (project) {
-    if (this.currentProject.id === project.id) {
-        this.currentProject = null;
+    const options = {
+        message: `${this.currentProject.name}`,
+        detail: 'are you sure you want to delete this project?',
+        type: 'question',
+        buttons: ['yes', 'no']
     }
 
-    IO.deleteProject(project.id);
-    this.projects = IO.getProjects();
-    this.lengthProject = ViewModel.data.projects.length;
+    dialog.showMessageBox(options, (index) => {
+        if (index === 0) {
+            if (this.currentProject.id === project.id) {
+                this.currentProject = null;
+            }
+            
+            IO.deleteProject(project.id);
+            this.projects = IO.getProjects();
+            this.lengthProject = ViewModel.data.projects.length;
+        }
+    });
 }
 
 ViewModel.methods.callAlert = function (dialog, color) {

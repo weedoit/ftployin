@@ -10,23 +10,18 @@
       <div class="ui window-title drag-region">{{ title }}</div>
 
       <div class="ui window-body">
-
         <div class="cols full-height">
-          <div id="aside" class="col-3">
-
+          <div id="aside" class="col-3 no-padding">
             <div class="ui text sub upper purple bold title-sidebar">
-                <transition name="fade" v-if="activeSearch">
-                    <div id="wrap-search" class="ui">
-                      <input type="text" v-model="search" placeholder="search project..">
-                    </div>
-                </transition>
-                projects
-                <i class="ui icon icon-search" aria-hidden="true" v-on:click="activeSearch = !activeSearch" v-if="lengthProject > 1" v-show="!activeSearch"></i>
-                <i class="ui icon icon-times-circle" aria-hidden="true" v-on:click="removeSearch" v-show="activeSearch"></i>
+              <div class="ui search">
+                <input type="text" v-model="search" placeholder="Projects" />
+                <button :class="{ filled: search }">
+                  <i class="ui icon" :class="{'icon-times': search, 'icon-search': !search }" @click="search = ''"></i>
+                </button>
+              </div>
             </div>
 
             <ul class="ui nav">
-              <!-- v-for="project in projects" -->
               <li
                 class="nav-item"
                 v-for="project in searchList"
@@ -41,9 +36,8 @@
               <button class="ui btn green" v-on:click="addProject()">add project</button>
             </div>
           </div>
-          <div class="col-9 ui bg white-opacity no-padding">
-
-            <div v-if="currentProject">
+          <div class="col-9 ui bg white-opacity no-padding" :class="{welcome: !currentProject}">
+            <div v-if="currentProject" >
               <h1 class="ui">
                 {{ currentProject.name }}
 
@@ -105,27 +99,14 @@
               </div>
             </div>
 
-            <div id="welcome" class="ui" v-else>
-                <span class="title-welcome">
-                    <!-- welcome to the <span>ftployin</span> -->
-                    <img src="assets/icons/logo-dark.svg" alt="ftployin">
-                </span>
-            </div>
-
-            <!-- <div id="infos-projects-footer" class="ui">
-                <span class="elements lenght-projects">
-                  <span v-if="lengthProject <= 0"><i class="ui icon icon-folder" aria-hidden="true"></i> none project added</span>
-                  <span v-else><i class="ui icon icon-folder" aria-hidden="true"></i> {{lengthProject}} project<span v-if="lengthProject > 1">s</span></span>
-                </span>
-            </div> -->
             <div class="ui alert" :class="[{active: alert}, alertColor]" id="boxAlert" ref="boxAlert">
                 {{ alertDialog }}
             </div>
           </div>
-
         </div>
       </div>
     </div>
+
 
     <script src="assets/js/vue.min.js"></script>
     <script src="src/js/ui/tabs.js"></script>
