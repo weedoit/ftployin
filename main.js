@@ -10,6 +10,7 @@ const path = require('path')
 const url = require('url')
 const client = require('electron-connect').client;
 const modal = require('electron-modal');
+const menu = electron.Menu;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -37,9 +38,6 @@ function createWindow () {
     slashes: true
   }))
 
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
-
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
     // Dereference the window object, usually you would store windows
@@ -48,9 +46,41 @@ function createWindow () {
     mainWindow = null
   });
 
+  const template = [
+    {
+      label: "ftployin",
+      submenu: [
+        { label: "Quit", accelerator: "Command+Q", click: function () { app.quit(); } }
+      ]
+    }, {
+      label: "Edit",
+      submenu: [
+        { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
+        { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
+        { type: "separator" },
+        { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
+        { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+        { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+        { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
+      ]
+    }
+  ];
+
   if (IS_DEV) {
     client.create(mainWindow);
+
+    template[0].submenu.push({ type: "separator" });
+    
+    template[0].submenu.push({
+      label: "DevTools", 
+      accelerator: "Command+D",
+      click: function () {
+        mainWindow.webContents.openDevTools();
+      } 
+    });
   }
+
+  menu.setApplicationMenu(menu.buildFromTemplate(template));
 }
 
 // This method will be called when Electron has finished
