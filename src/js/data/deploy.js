@@ -257,7 +257,7 @@ class Deploy {
                             const file = tmp.fileSync();
                             fs.writeFileSync(file.name, item.content);
 
-                            return this.connection.append(file.name, remotePath, (err) => {
+                            return this.connection.put(file.name, remotePath, (err) => {
                                 file.removeCallback();
                                 return (err) ? reject(err) : resolve();
                             });
