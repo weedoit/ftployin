@@ -20,7 +20,7 @@ gulp.task('app-sass', function () {
 
 gulp.task('watch', function () {
     gulp.watch(['src/**/*.scss'], ['app-sass']);
-    gulp.watch(['assets/**/*.css', 'assets/**/*.js', 'src/**/*.js', 'index.html'], electron.reload);
+    gulp.watch(['assets/**/*.css', 'assets/**/*.js', 'src/**/*.js', '*.html'], electron.reload);
 });
 
 gulp.task('electron', function () {

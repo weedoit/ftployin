@@ -1,3 +1,7 @@
 .edit-diff-page {
     padding-top: 16px;
+
+    .ui.form .input-group.select select {
+        max-width: calc(100% - 45px);
+    }
 }
